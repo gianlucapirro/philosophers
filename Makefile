@@ -3,9 +3,10 @@ VPATH	=	./includes/ ./utils/
 SRCS	=	main.c\
 			init.c\
 			error.c
+			list.c
 OBJS	= 	${SRCS:.c=.o}
 CC		= 	gcc
-CFLAGS	= 	-g -pthread #-Werror -Wextra -Wall
+CFLAGS	= 	-g -pthread -Werror -Wextra -Wall
 OBJ_DIR	=	./objs/
 INC_DIR	=	./includes/
 UTILS	=	utils/utils.a

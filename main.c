@@ -7,8 +7,12 @@
 
 int main(int argc, char *argv[])
 {
-	t_data	data;
+	t_data			data;
+	t_philospher	phil;
+	int				status;
 
+	if ((status = error(argc, argv)))
+		return (status);
 	data_init(&data, argc, argv);
 	return (0);
 }

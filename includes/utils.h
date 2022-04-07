@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   utils.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: gianlucapirro <gianlucapirro@student.42      +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2021/10/06 11:06:51 by gpirro        #+#    #+#                 */
-/*   Updated: 2021/10/25 20:11:43 by gpirro        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   utils.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/06 11:06:51 by gpirro            #+#    #+#             */
+/*   Updated: 2022/04/06 17:51:34 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-int             ft_strtol(const char *s);
 int				ft_atoi(const char *str);
 int				ft_isalnum(int c);
 int				ft_isalpha(int c);
@@ -49,6 +48,7 @@ void			ft_putchar_fd(char c, int fd);
 void			ft_putstr_fd(char *s, int fd);
 void			ft_putendl_fd(char *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
+long int        ft_strtol(const char *s);
 unsigned int	ft_strlcpy(char *des, const char *src, size_t size);
 
 #endif

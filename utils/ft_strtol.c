@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   ft_atoi.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: gpirro <gpirro@student.codam.nl>             +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2021/07/20 11:10:07 by gpirro        #+#    #+#                 */
-/*   Updated: 2021/10/25 20:14:02 by gpirro        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   ft_strtol.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/07/20 11:10:07 by gpirro            #+#    #+#             */
+/*   Updated: 2022/04/06 17:54:41 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+#include <stdio.h>
 
-int	ft_strtol(const char *s)
+long int	ft_strtol(const char *s)
 {
 	unsigned long int	nr;
 	int					neg;

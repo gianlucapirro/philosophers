@@ -1,41 +1,32 @@
-#ifndef PHILOSOHPERS_H
+#ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
-typedef struct s_fork
+typedef enum e_status
 {
-	int forkNr;
-}   	t_fork;
+	EATING,
+	SLEEPING,
+	THINKING
+}	t_status;
 
+typedef struct s_simulation {
+	pthread_mutex_t	*forks;
+	t_philospher 	*philosophers;
 
-typedef struct s_forks
-{
-	t_fork	fork;
-	t_fork	*next;
-	t_fork	*prev;
-}		t_forks;
+	
+}   	t_simulation;
 
 typedef struct s_philosopher
 {
-	int philNr;
-}   	t_philospher;
+	int				id;
+	pthread_t		thread;
 
+	pthread_mutex_t	eat;
+	int				meals;
+	int				last_meal;
 
-typedef struct s_philosophers
-{
-	t_philospher	phil;
-	t_philospher	*next;
-	t_philospher	*prev;
-}		t_philosphers;
+	t_simulation	*status;	
+}		t_philospher;
 
-
-typedef struct s_data {
-	int numberOfPhils;
-	int timeToDie;
-	int timeToEat;
-	int timeToSleep;
-	int notepme;
-}   	t_data;
-
-void    data_init(t_data *data, int argc, char *argv[])
+void    data_init(t_data *data, int argc, char *argv[]);
 
 #endif
