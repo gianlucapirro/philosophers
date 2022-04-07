@@ -6,7 +6,7 @@
 #    By: gpirro <gpirro@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/10/15 17:47:15 by gpirro        #+#    #+#                  #
-#    Updated: 2021/10/25 20:20:40 by gpirro        ########   odam.nl          #
+#    Updated: 2022/04/07 12:32:13 by gpirro        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,8 @@ SRCS	=	ft_atoi.c\
 			ft_substr.c\
 			ft_tolower.c\
 			ft_toupper.c\
-			ft_strtol.c
+			ft_strtol.c\
+			input.c
 VPATH	=	../includes/	
 INC_DIR	=	../includes/	
 OBJS	=	${SRCS:.c=.o}

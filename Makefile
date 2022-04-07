@@ -2,8 +2,9 @@ NAME	=	philosophers
 VPATH	=	./includes/ ./utils/
 SRCS	=	main.c\
 			init.c\
-			error.c
-			list.c
+			error.c\
+			time.c\
+			action.c
 OBJS	= 	${SRCS:.c=.o}
 CC		= 	gcc
 CFLAGS	= 	-g -pthread -Werror -Wextra -Wall

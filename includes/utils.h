@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/06 11:06:51 by gpirro            #+#    #+#             */
-/*   Updated: 2022/04/06 17:51:34 by gianlucapir      ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   utils.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gianlucapirro <gianlucapirro@student.42      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2021/10/06 11:06:51 by gpirro        #+#    #+#                 */
+/*   Updated: 2022/04/07 12:32:29 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define UTILS_H
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 int				ft_atoi(const char *str);
 int				ft_isalnum(int c);
@@ -27,6 +28,8 @@ int				ft_strlen(const char *str);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 int				ft_tolower(int c);
 int				ft_toupper(int c);
+bool        	ft_strtol(const char *s, long int *store);
+bool			input(const char *s);
 char			*ft_memmove(void *dest, const void *src, size_t n);
 char			*ft_memset(void *string, int character, int len);
 char			*ft_strchr(const char *string, int c);
@@ -48,7 +51,6 @@ void			ft_putchar_fd(char c, int fd);
 void			ft_putstr_fd(char *s, int fd);
 void			ft_putendl_fd(char *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
-long int        ft_strtol(const char *s);
 unsigned int	ft_strlcpy(char *des, const char *src, size_t size);
 
 #endif

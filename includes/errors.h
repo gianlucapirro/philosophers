@@ -4,7 +4,10 @@
 typedef	enum	e_error {
 	SUCCES,
 	WRONG_AMOUNT_OF_ARGUMENTS,
-	INT_OVERFLOW
+	INT_OVERFLOW,
+	MALLOC_FAILED,
+	MUTEX_FAILED,
+	PHILOSOPHER_FAIL
 }	t_error;
 
 int p_error(char *msg, int errorcode);
