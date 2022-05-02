@@ -3,6 +3,7 @@
 #include <gettime.h>
 #include <errors.h>
 #include <stdlib.h>
+#include <mutex.h>
 
 /**
  * parse the input received as argv into the simulation struct.
@@ -46,17 +47,15 @@ int     simulation_init(t_simulation *simulation)
 
 	simulation->simStatus = RUNNING;
 	simulation->simStartTime = get_time();
-	simulation->forks = malloc(sizeof(pthread_mutex_t) * simulation->philoCount);
+	simulation->forks = malloc(sizeof(t_mutex) * simulation->philoCount);
 	if (!simulation->forks)
 		return (p_error("Error: Malloc failure, could not find any forks in the kitchen cabinet", MALLOC_FAILED));
 	simulation->philosophers = malloc(sizeof(t_philospher) * simulation->philoCount);
 	if (!simulation->philosophers)
 		return (p_error("Error: philosopher could not be allocated", MALLOC_FAILED));
-	if (pthread_mutex_init(&(simulation->printMutex), NULL) != 0)
-		return (p_error("Error: could not init mutex", MUTEX_FAILED));
 	i = 0;
 	while (i < simulation->philoCount)
-		if (pthread_mutex_init(&(simulation->forks[i++]), NULL) != 0)
+		if ((simulation->forks[i++] = mutex_init()) == NULL)
 			return (p_error("Error: could not init mutex", MUTEX_FAILED));
 	i = -1;
 	while (++i < simulation->philoCount)

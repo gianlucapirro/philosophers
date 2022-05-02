@@ -4,7 +4,8 @@ SRCS	=	main.c\
 			init.c\
 			error.c\
 			time.c\
-			action.c
+			action.c\
+			mutex.c
 OBJS	= 	${SRCS:.c=.o}
 CC		= 	gcc
 CFLAGS	= 	-g -pthread -Werror -Wextra -Wall
