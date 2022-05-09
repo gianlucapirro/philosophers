@@ -1,14 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   philosophers.h                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/09 14:05:05 by gpirro        #+#    #+#                 */
+/*   Updated: 2022/05/09 15:50:00 by gpirro        ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
-#include <pthread.h>
-#include <mutex.h>
 
-typedef enum e_status
-{
-	EATING,
-	SLEEPING,
-	THINKING
-}	t_status;
+# include <pthread.h>
+# include <mutex.h>
+# include <utils.h>
+# include <errors.h>
+# include <stdlib.h>
+# include <mutex.h>
+# include <stdio.h>
 
 typedef enum e_proccess
 {
@@ -18,34 +29,36 @@ typedef enum e_proccess
 
 typedef struct s_simulation {
 	t_mutex					**forks;
+	t_mutex					*stop;
 	struct s_philosopher	*philosophers;
 
-	long int				philoCount;
-	long int				EatEachTime;
+	long int				philo_count;
+	long int				eat_each_time;
 
-	long int				simStartTime;
-	t_process				simStatus;
+	long int				start_time;
+	t_process				status;
 
-	long int				deathTime;
-	long int				eatingTime;
-	long int				sleepingTime;
-}   	t_simulation;
+	long int				ttd;
+	long int				tte;
+	long int				tts;
+}	t_simulation;
 
 typedef struct s_philosopher
 {
-	int				philoID;
+	int				philo_id;
 	pthread_t		thread;
 
 	pthread_mutex_t	eat;
-	int				mealsCount;
-	int				lastMeal;
+	int				meals_count;
+	long int		last_meal;
 
-	t_simulation	*simStatus;
-}		t_philospher;
+	t_simulation	*sim;
+}		t_philosopher;
 
-void    parse_arguments(t_simulation *simulation, int argc, char *argv[]);
+void	parse_arguments(t_simulation *simulation, int argc, char *argv[]);
 int		simulation_init(t_simulation *simulation);
-int		routine(void *arg);
-int		action(t_philospher *philo, t_status action, t_mutex *right, t_mutex *left);
+int		start_simulation(t_simulation *sim);
+void	*routine(void *arg);
+int		print(char *msg, t_philosopher *philo);
 
 #endif

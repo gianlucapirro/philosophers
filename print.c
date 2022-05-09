@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   mutex.h                                            :+:    :+:            */
+/*   print.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/05/02 12:42:09 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/05/09 14:40:12 by gpirro        ########   odam.nl         */
+/*   Created: 2022/05/09 15:36:28 by gpirro        #+#    #+#                 */
+/*   Updated: 2022/05/09 15:55:08 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MUTEX_H
-# define MUTEX_H
+#include <philosophers.h>
+#include <stdio.h>
+#include <gettime.h>
+#include <mutex.h>
 
-# include <pthread.h>
-
-typedef struct s_mutex {
-	int				on;
-	pthread_mutex_t	mutex;
-	pthread_mutex_t	wait;
-}	t_mutex;
-
-t_mutex	*mutex_init(void);
-void	mutex_free(t_mutex *m);
-void	mutex_lock(t_mutex *m);
-void	mutex_unlock(t_mutex *m);
-int		mutex_trylock(t_mutex *m);
-
-#endif
+int	print(char *msg, t_philosopher *philo)
+{
+	pthread_mutex_lock(&philo->sim->stop->mutex);
+	if (philo->sim->status != FINISHED)
+		printf(msg, get_time(), philo->philo_id);
+	pthread_mutex_unlock(&philo->sim->stop->mutex);
+	return (0);
+}

@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   init.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/09 10:32:57 by gpirro        #+#    #+#                 */
+/*   Updated: 2022/05/09 14:34:02 by gpirro        ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <philosophers.h>
 #include <utils.h>
 #include <gettime.h>
 #include <errors.h>
 #include <stdlib.h>
 #include <mutex.h>
+#include <stdio.h>
 
 /**
  * parse the input received as argv into the simulation struct.
@@ -12,25 +25,35 @@
  * @param argc 
  * @param argv 
  */
-void    parse_arguments(t_simulation *simulation, int argc, char *argv[])
+void	parse_arguments(t_simulation *simulation, int argc, char *argv[])
 {
-	ft_strtol(argv[1], &simulation->philoCount);
-	ft_strtol(argv[2], &simulation->deathTime);
-	ft_strtol(argv[3], &simulation->eatingTime);
-	ft_strtol(argv[4], &simulation->sleepingTime);
+	ft_strtol(argv[1], &simulation->philo_count);
+	ft_strtol(argv[2], &simulation->ttd);
+	ft_strtol(argv[3], &simulation->tte);
+	ft_strtol(argv[4], &simulation->tts);
 	if (argc == 6)
-		ft_strtol(argv[5], &simulation->EatEachTime);
+		ft_strtol(argv[5], &simulation->eat_each_time);
 	else
-		simulation->EatEachTime = -1;
+		simulation->eat_each_time = -1;
 }
 
-int	add_philosopher(t_philospher *philosopher, t_simulation *sim, int philoID)
+/**
+ * a new philosopher is born. It creates a 
+ * philosopher and runs the routine function
+ * 
+ * @param philosopher 
+ * @param sim 
+ * @param philo_id 
+ * @return PHILOSOPHER FAIL if fail or SUCCES if succeeds
+ */
+int	add_philosopher(t_philosopher *philosopher, t_simulation *sim, int philo_id)
 {
-	philosopher->philoID = philoID;
-	philosopher->lastMeal = sim->simStartTime;
-	philosopher->mealsCount = sim-> EatEachTime;
-	philosopher->simStatus = sim;
-	if (pthread_create(&(philosopher->thread), NULL, &routine, (void*)philosopher) != 0)
+	philosopher->philo_id = philo_id;
+	philosopher->last_meal = sim->start_time;
+	philosopher->meals_count = sim-> eat_each_time;
+	philosopher->sim = sim;
+	if (pthread_create(&(philosopher->thread), NULL, &routine, \
+	(void *)philosopher) != 0)
 		return (p_error("Error: pthread failed to create", PHILOSOPHER_FAIL));
 	return (SUCCES);
 }
@@ -41,29 +64,49 @@ int	add_philosopher(t_philospher *philosopher, t_simulation *sim, int philoID)
  * @param simulation 
  * @return return code if succes return succes
  */
-int     simulation_init(t_simulation *simulation)
+int	simulation_init(t_simulation *sim)
 {
-	int i;
+	sim->status = RUNNING;
+	sim->start_time = get_time();
+	sim->stop = mutex_init();
+	if (sim->stop == NULL)
+		return (p_error("Error: mutex init failed", MUTEX_FAILED));
+	sim->forks = malloc(sizeof(t_mutex) * sim->philo_count);
+	if (!sim->forks)
+		return (p_error("Error: fork malloc failed", MALLOC_FAILED));
+	sim->philosophers = malloc(sizeof(t_philosopher) * sim->philo_count);
+	if (!sim->philosophers)
+		return (p_error("Error: philo add malloc fail", MALLOC_FAILED));
+	return (SUCCES);
+}
 
-	simulation->simStatus = RUNNING;
-	simulation->simStartTime = get_time();
-	simulation->forks = malloc(sizeof(t_mutex) * simulation->philoCount);
-	if (!simulation->forks)
-		return (p_error("Error: Malloc failure, could not find any forks in the kitchen cabinet", MALLOC_FAILED));
-	simulation->philosophers = malloc(sizeof(t_philospher) * simulation->philoCount);
-	if (!simulation->philosophers)
-		return (p_error("Error: philosopher could not be allocated", MALLOC_FAILED));
+/**
+ * creates mutex for every fork and creates a thread for every philosopher
+ * 
+ * @param sim 
+ * @return errorcode on fail or SUCCES on succes 
+ */
+int	start_simulation(t_simulation *sim)
+{
+	int	i;
+
 	i = 0;
-	while (i < simulation->philoCount)
-		if ((simulation->forks[i++] = mutex_init()) == NULL)
+	while (i < sim->philo_count)
+	{
+		sim->forks[i] = mutex_init();
+		if (sim->forks[i] == NULL)
 			return (p_error("Error: could not init mutex", MUTEX_FAILED));
+		i++;
+	}
 	i = -1;
-	while (++i < simulation->philoCount)
-		if (add_philosopher(simulation->philosophers + i, simulation, i) != SUCCES)
-			return (p_error("Error: could not add philosopher", PHILOSOPHER_FAIL));
+	while (++i < sim->philo_count)
+		if (add_philosopher(sim->philosophers + i, sim, i) != SUCCES)
+			return (p_error("Error: philo add fialed", PHILOSOPHER_FAIL));
 	i = -1;
-	while (++i < simulation->philoCount)
-		if (!pthread_join(simulation->philosophers[i].thread, NULL))
+	while (++i < sim->philo_count)
+	{
+		if (pthread_join(sim->philosophers[i].thread, NULL))
 			return (p_error("Error: pthreadjoin failed", PHILOSOPHER_FAIL));
+	}
 	return (SUCCES);
 }

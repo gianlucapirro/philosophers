@@ -3,17 +3,16 @@
 /*                                                        ::::::::            */
 /*   input.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gianlucapirro <gianlucapirro@student.42      +#+                     */
+/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/20 11:10:07 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/04/07 12:32:00 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/05/09 14:34:40 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <utils.h>
 #include <stdio.h>
 #include <stdbool.h>
-
 
 /**
  * check if input is valid

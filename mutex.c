@@ -3,19 +3,19 @@
 /*                                                        ::::::::            */
 /*   mutex.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gpirro <gpirro@student.codam.nl>             +#+                     */
+/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/02 12:43:55 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/05/02 13:46:55 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/05/09 14:36:03 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <mutex.h>
 
-t_mutex *mutex_init(void)
+t_mutex	*mutex_init(void)
 {
-	t_mutex *m;
+	t_mutex	*m;
 
 	m = (t_mutex *)malloc(sizeof(t_mutex));
 	if (m == NULL)
@@ -42,16 +42,14 @@ void	mutex_free(t_mutex *m)
 	free(m);
 }
 
-void	mutex_lock(t_mutex *m)
-{
-	pthread_mutex_lock(&m->wait);
-	m->on = 1;
-	pthread_mutex_lock(&m->mutex);
-	pthread_mutex_unlock(&m->wait);
-}
-
-// Mutex trylock to try and lock a mutex, if mutex is locked return 1 else lock the mutex and return 0 for succes.
-// the m->wait is to make sure that no race condition will take place.
+/**
+ * Mutex trylock to try and lock a mutex, if mutex is 
+ * locked return 1 else lock the mutex and return 0 for succes.
+ * the m->wait is to make sure that no race condition will take place.
+ * 
+ * @param m 
+ * @return int 
+ */
 int	mutex_trylock(t_mutex *m)
 {
 	int	succes;
@@ -68,7 +66,14 @@ int	mutex_trylock(t_mutex *m)
 	pthread_mutex_unlock(&m->wait);
 	return (succes);
 }
-	
+
+void	mutex_lock(t_mutex *m)
+{
+	while (mutex_trylock(m))
+	{
+	}
+}
+
 void	mutex_unlock(t_mutex *m)
 {
 	pthread_mutex_lock(&m->wait);
