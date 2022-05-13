@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/09 14:03:40 by gpirro            #+#    #+#             */
-/*   Updated: 2022/05/12 23:51:38 by gianlucapir      ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gianlucapirro <gianlucapirro@student.42      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/09 14:03:40 by gpirro        #+#    #+#                 */
+/*   Updated: 2022/05/13 12:09:16 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,16 @@
 
 int	destroy_simulation(t_simulation *sim)
 {
-	mutex_free(sim->stop);
-	mutex_free(*sim->forks);
+	int	i;
+
+	i = -1;
+	while (++i < sim->philo_count)
+		mutex_free(sim->forks[i]);
 	free(sim->philosophers);
-	return (1);
+	mutex_free(sim->stop);
+	free(sim->forks);
+	free(sim);
+	return (0);
 }
 
 /**
@@ -49,5 +55,6 @@ int	main(int argc, char *argv[])
 		return (destroy_simulation(simulation));
 	if (start_simulation(simulation))
 		return (destroy_simulation(simulation));
+	destroy_simulation(simulation);
 	return (1);
 }
