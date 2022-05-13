@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   utils.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: gianlucapirro <gianlucapirro@student.42      +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2021/10/06 11:06:51 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/04/07 12:32:29 by gpirro        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   utils.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/06 11:06:51 by gpirro            #+#    #+#             */
+/*   Updated: 2022/05/13 13:54:33 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int				ft_strlen(const char *str);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 int				ft_tolower(int c);
 int				ft_toupper(int c);
-bool        	ft_strtol(const char *s, long int *store);
+bool			ft_strtol(const char *s, long int *store);
 bool			input(const char *s);
 char			*ft_memmove(void *dest, const void *src, size_t n);
 char			*ft_memset(void *string, int character, int len);

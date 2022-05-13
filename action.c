@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   action.c                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: gianlucapirro <gianlucapirro@student.42      +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/05/09 10:31:38 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/05/13 13:51:52 by gpirro        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   action.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/09 10:31:38 by gpirro            #+#    #+#             */
+/*   Updated: 2022/05/13 13:53:59 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,8 @@ void	*routine(void *arg)
 	right_fork = sim->forks[(philo->philo_id + 1) % sim->philo_count];
 	left_fork = sim->forks[(philo->philo_id - 1 + sim->philo_count) \
 	% sim->philo_count];
-	while (1 && (philo->sim->times_to_eat == -1 || philo->meals_count < philo->sim->times_to_eat))
+	while (1 && (philo->sim->times_to_eat == -1 || \
+	philo->meals_count < philo->sim->times_to_eat))
 	{
 		if (eating(philo, right_fork, left_fork) == 1 \
 		&& check_philo_status(philo))
