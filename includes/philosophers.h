@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   philosophers.h                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/05/09 14:05:05 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/05/09 15:50:00 by gpirro        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   philosophers.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/09 14:05:05 by gpirro            #+#    #+#             */
+/*   Updated: 2022/05/12 23:28:12 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_simulation {
 	struct s_philosopher	*philosophers;
 
 	long int				philo_count;
-	long int				eat_each_time;
+	long int				times_to_eat;
 
 	long int				start_time;
 	t_process				status;

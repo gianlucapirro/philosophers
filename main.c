@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/05/09 14:03:40 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/05/09 15:48:45 by gpirro        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/09 14:03:40 by gpirro            #+#    #+#             */
+/*   Updated: 2022/05/12 23:51:38 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 #include <philosophers.h>
 #include <gettime.h>
 #include <string.h>
+
+int	destroy_simulation(t_simulation *sim)
+{
+	mutex_free(sim->stop);
+	mutex_free(*sim->forks);
+	free(sim->philosophers);
+	return (1);
+}
 
 /**
  * Starting point of philosophers!
@@ -38,8 +46,8 @@ int	main(int argc, char *argv[])
 		return (SUCCES);
 	}
 	if (simulation_init(simulation))
-		return (1);
+		return (destroy_simulation(simulation));
 	if (start_simulation(simulation))
-		return (1);
-	return (0);
+		return (destroy_simulation(simulation));
+	return (1);
 }

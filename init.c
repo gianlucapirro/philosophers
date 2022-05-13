@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   init.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/05/09 10:32:57 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/05/09 14:34:02 by gpirro        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/09 10:32:57 by gpirro            #+#    #+#             */
+/*   Updated: 2022/05/12 23:36:17 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	parse_arguments(t_simulation *simulation, int argc, char *argv[])
 	ft_strtol(argv[3], &simulation->tte);
 	ft_strtol(argv[4], &simulation->tts);
 	if (argc == 6)
-		ft_strtol(argv[5], &simulation->eat_each_time);
+		ft_strtol(argv[5], &simulation->times_to_eat);
 	else
-		simulation->eat_each_time = -1;
+		simulation->times_to_eat = -1;
 }
 
 /**
@@ -50,7 +50,7 @@ int	add_philosopher(t_philosopher *philosopher, t_simulation *sim, int philo_id)
 {
 	philosopher->philo_id = philo_id;
 	philosopher->last_meal = sim->start_time;
-	philosopher->meals_count = sim-> eat_each_time;
+	philosopher->meals_count = 0;
 	philosopher->sim = sim;
 	if (pthread_create(&(philosopher->thread), NULL, &routine, \
 	(void *)philosopher) != 0)
