@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/02 12:43:55 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/05/09 14:36:03 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/05/13 13:38:05 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ t_mutex	*mutex_init(void)
 	return (m);
 }
 
+/**
+ * @brief destroys mutex 
+ * 
+ * @param m 
+ */
 void	mutex_free(t_mutex *m)
 {
 	pthread_mutex_destroy(&m->mutex);

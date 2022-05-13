@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/09 14:03:40 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/05/13 12:09:16 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/05/13 13:32:33 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,30 @@
 #include <gettime.h>
 #include <string.h>
 
-int	destroy_simulation(t_simulation *sim)
+/**
+ * @brief Destroys simulation and frees all necessary parts,
+ * to show in what position the program is we use enum freeable
+ * !!ALWAYS DESTROYS SIMULATION!!
+ * SF -> simulation, array of forks but not forks itself
+ * SFS -> simulation, array of forks, stop mutex
+ * SFSPF -> simulation, array of forks, stop mutex, 
+ * array of philosophers, forks until failed mutex or end
+ */
+int	destroy_simulation(t_simulation *sim, int s, int failed_mutex)
 {
 	int	i;
 
 	i = -1;
-	while (++i < sim->philo_count)
-		mutex_free(sim->forks[i]);
-	free(sim->philosophers);
-	mutex_free(sim->stop);
-	free(sim->forks);
+	if (s == SFS || s == SFSPF)
+		mutex_free(sim->stop);
+	if (s == SFSPF)
+	{
+		while (++i < failed_mutex)
+			mutex_free(sim->forks[i]);
+		free(sim->philosophers);
+	}
+	if (s == SF || s == SFS || s == SFSPF)
+		free(sim->forks);
 	free(sim);
 	return (0);
 }
@@ -49,12 +63,12 @@ int	main(int argc, char *argv[])
 		printf("\033[32m %li 1 Picked up a fork\n", get_time());
 		printf("\033[31m[%li 1 Died\n", \
 		simulation->ttd);
-		return (SUCCES);
+		return (0);
 	}
 	if (simulation_init(simulation))
-		return (destroy_simulation(simulation));
+		return (1);
 	if (start_simulation(simulation))
-		return (destroy_simulation(simulation));
-	destroy_simulation(simulation);
-	return (1);
+		return (1);
+	destroy_simulation(simulation, SFSPF, simulation->philo_count);
+	return (SUCCES);
 }

@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/09 12:17:21 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/05/09 14:21:32 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/05/13 13:51:21 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,17 @@ void	ft_sleep(long int ms)
 		usleep(100);
 }
 
+/**
+ * @brief checks if the philosopher will die within 
+ * the time it has to sleep. If it will die, it will
+ * calculate how long it will take to die and sleeps that
+ * time and then returns -1. If it will not die it will
+ * sleep for sleep time.
+ * 
+ * @param sleep 
+ * @param philo 
+ * @return int 
+ */
 int	sleep_or_die(long int sleep, t_philosopher *philo)
 {
 	if (philo->last_meal + philo->sim->ttd < get_time() + sleep)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/09 10:32:57 by gpirro            #+#    #+#             */
-/*   Updated: 2022/05/12 23:36:17 by gianlucapir      ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   init.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: gianlucapirro <gianlucapirro@student.42      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/09 10:32:57 by gpirro        #+#    #+#                 */
+/*   Updated: 2022/05/13 13:29:00 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,24 @@ int	simulation_init(t_simulation *sim)
 {
 	sim->status = RUNNING;
 	sim->start_time = get_time();
-	sim->stop = mutex_init();
-	if (sim->stop == NULL)
-		return (p_error("Error: mutex init failed", MUTEX_FAILED));
 	sim->forks = malloc(sizeof(t_mutex) * sim->philo_count);
 	if (!sim->forks)
+	{
+		destroy_simulation(sim, SIM, 0);
 		return (p_error("Error: fork malloc failed", MALLOC_FAILED));
+	}
+	sim->stop = mutex_init();
+	if (sim->stop == NULL)
+	{
+		destroy_simulation(sim, SF, 0);
+		return (p_error("Error: mutex init failed", MUTEX_FAILED));
+	}
 	sim->philosophers = malloc(sizeof(t_philosopher) * sim->philo_count);
 	if (!sim->philosophers)
+	{
+		destroy_simulation(sim, SFS, 0);
 		return (p_error("Error: philo add malloc fail", MALLOC_FAILED));
+	}
 	return (SUCCES);
 }
 
@@ -95,7 +104,10 @@ int	start_simulation(t_simulation *sim)
 	{
 		sim->forks[i] = mutex_init();
 		if (sim->forks[i] == NULL)
+		{
+			destroy_simulation(sim, SFSPF, i);
 			return (p_error("Error: could not init mutex", MUTEX_FAILED));
+		}
 		i++;
 	}
 	i = -1;

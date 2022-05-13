@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/09 10:31:38 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/05/13 11:34:27 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/05/13 13:51:52 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+ * @brief checks if philosopher is still alive
+ * if philosopher has died it prints a death message
+ * and returns 1 else return 0
+ * 
+ * @param philo 
+ * @return int 
+ */
 int	check_philo_status(t_philosopher *philo)
 {
 	long int	ttd;
@@ -44,6 +52,14 @@ int	check_philo_status(t_philosopher *philo)
 	return (0);
 }
 
+/**
+ * @brief prints that philosopher is eating and 
+ * updates the last time the philosopher has eaten
+ * and the amount of meals the philosopher has eaten.
+ * 
+ * @param philo 
+ * @return int 
+ */
 static int	eat(t_philosopher *philo)
 {
 	philo->last_meal = get_time();
@@ -53,6 +69,14 @@ static int	eat(t_philosopher *philo)
 	return (sleep_or_die(philo->sim->tte, philo));
 }
 
+/**
+ * @brief tries to pick up two forks to start eating
+ * 
+ * @param philo 
+ * @param right 
+ * @param left 
+ * @return int 
+ */
 static int	eating(t_philosopher *philo, t_mutex *right, t_mutex *left)
 {
 	while (check_philo_status(philo) == 0)
@@ -78,6 +102,12 @@ static int	eating(t_philosopher *philo, t_mutex *right, t_mutex *left)
 	return (1);
 }
 
+/**
+ * @brief will let the philosopher sleep if it is still alive
+ * 
+ * @param philo 
+ * @return int 
+ */
 static int	sleeping(t_philosopher *philo)
 {
 	if (check_philo_status(philo))
@@ -86,18 +116,26 @@ static int	sleeping(t_philosopher *philo)
 	return (sleep_or_die(philo->sim->tts, philo));
 }
 
+/**
+ * @brief routine that every philosopher (thread) follows
+ * every philosopher must eat sleep and think
+ * 
+ * 
+ * @param arg 
+ * @return void* 
+ */
 void	*routine(void *arg)
 {
 	t_philosopher	*philo;
-	t_simulation	*stat;
+	t_simulation	*sim;
 	t_mutex			*right_fork;
 	t_mutex			*left_fork;
 
 	philo = (t_philosopher *)arg;
-	stat = philo->sim;
-	right_fork = stat->forks[(philo->philo_id + 1) % stat->philo_count];
-	left_fork = stat->forks[(philo->philo_id - 1 + stat->philo_count) \
-	% stat->philo_count];
+	sim = philo->sim;
+	right_fork = sim->forks[(philo->philo_id + 1) % sim->philo_count];
+	left_fork = sim->forks[(philo->philo_id - 1 + sim->philo_count) \
+	% sim->philo_count];
 	while (1 && (philo->sim->times_to_eat == -1 || philo->meals_count < philo->sim->times_to_eat))
 	{
 		if (eating(philo, right_fork, left_fork) == 1 \

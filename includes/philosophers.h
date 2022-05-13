@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/09 14:05:05 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/05/13 12:25:25 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/05/13 13:23:18 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,14 @@ typedef enum e_proccess
 	RUNNING,
 	FINISHED
 }	t_process;
+
+typedef enum e_freeable
+{
+	SIM,
+	SF,
+	SFS,
+	SFSPF
+}	t_freeable;
 
 typedef struct s_simulation {
 	t_mutex					**forks;
@@ -60,5 +68,6 @@ int		simulation_init(t_simulation *simulation);
 int		start_simulation(t_simulation *sim);
 void	*routine(void *arg);
 int		print(char *msg, t_philosopher *philo);
+int		destroy_simulation(t_simulation *sim, int s, int failed_mutex);
 
 #endif
