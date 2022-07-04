@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   main.c                                             :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: gianlucapirro <gianlucapirro@student.42      +#+                     */
+/*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/09 14:03:40 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/05/13 13:32:33 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/07/04 13:33:06 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
  * @brief Destroys simulation and frees all necessary parts,
  * to show in what position the program is we use enum freeable
  * !!ALWAYS DESTROYS SIMULATION!!
- * SF -> simulation, array of forks but not forks itself
- * SFS -> simulation, array of forks, stop mutex
- * SFSPF -> simulation, array of forks, stop mutex, 
+ * SF -> array of forks but not forks itself
+ * SFS -> array of forks, stop mutex
+ * SFSPF -> array of forks, stop mutex, 
  * array of philosophers, forks until failed mutex or end
  */
 int	destroy_simulation(t_simulation *sim, int s, int failed_mutex)
@@ -39,7 +39,6 @@ int	destroy_simulation(t_simulation *sim, int s, int failed_mutex)
 	}
 	if (s == SF || s == SFS || s == SFSPF)
 		free(sim->forks);
-	free(sim);
 	return (0);
 }
 
@@ -52,23 +51,21 @@ int	destroy_simulation(t_simulation *sim, int s, int failed_mutex)
  */
 int	main(int argc, char *argv[])
 {
-	t_simulation	*simulation;
+	t_simulation	simulation;
 
 	if (error(argc, argv))
 		return (1);
-	simulation = memset(malloc(sizeof(t_simulation)), 0, sizeof(t_simulation));
-	parse_arguments(simulation, argc, argv);
-	if (simulation->philo_count == 1)
+	parse_arguments(&simulation, argc, argv);
+	if (simulation.philo_count == 1)
 	{
 		printf("\033[32m %li 1 Picked up a fork\n", get_time());
-		printf("\033[31m[%li 1 Died\n", \
-		simulation->ttd);
+		printf("\033[31m[%li 1 Died\n", simulation.ttd);
 		return (0);
 	}
-	if (simulation_init(simulation))
+	if (simulation_init(&simulation))
 		return (1);
-	if (start_simulation(simulation))
+	if (start_simulation(&simulation))
 		return (1);
-	destroy_simulation(simulation, SFSPF, simulation->philo_count);
+	destroy_simulation(&simulation, SFSPF, simulation.philo_count);
 	return (SUCCES);
 }

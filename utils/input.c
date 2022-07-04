@@ -6,7 +6,7 @@
 /*   By: gpirro <gpirro@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/20 11:10:07 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/05/09 14:34:40 by gpirro        ########   odam.nl         */
+/*   Updated: 2022/07/04 13:00:16 by gpirro        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  * @return if input is wrong return false if input is correct return true 
  * @note negative number will bee seen as wrong 
  */
-bool	input(const char *s)
+bool	is_valid_input(const char *s)
 {
 	unsigned long int	nr;
 
