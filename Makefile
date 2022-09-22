@@ -1,4 +1,4 @@
-NAME	=	philosophers
+NAME	=	philo
 VPATH	=	./includes/ ./utils/
 SRCS	=	main.c\
 			init.c\

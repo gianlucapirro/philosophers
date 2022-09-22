@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 12:43:55 by gpirro            #+#    #+#             */
-/*   Updated: 2022/05/13 13:53:08 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/09/22 18:11:29 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ int	mutex_trylock(t_mutex *m)
 	{
 		m->on = 1;
 		pthread_mutex_lock(&m->mutex);
-		succes = 0;
+		succes = 1;
 	}
 	else
-		succes = 1;
+		succes = 0;
 	pthread_mutex_unlock(&m->wait);
 	return (succes);
 }

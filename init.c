@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   init.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: gianlucapirro <gianlucapirro@student.42      +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/05/09 10:32:57 by gpirro        #+#    #+#                 */
-/*   Updated: 2022/05/13 13:29:00 by gpirro        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/09 10:32:57 by gpirro            #+#    #+#             */
+/*   Updated: 2022/09/22 18:54:42 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ int	simulation_init(t_simulation *sim)
 }
 
 /**
- * creates mutex for every fork and creates a thread for every philosopher
+ * creates mutex for every fork and creates a thread for every philosopher, sleep
+ * is there to make sure philo dont start at the same time.
  * 
  * @param sim 
  * @return errorcode on fail or SUCCES on succes 
@@ -99,21 +100,22 @@ int	start_simulation(t_simulation *sim)
 {
 	int	i;
 
-	i = 0;
-	while (i < sim->philo_count)
+	i = -1;
+	while (++i < sim->philo_count)
 	{
 		sim->forks[i] = mutex_init();
 		if (sim->forks[i] == NULL)
-		{
 			destroy_simulation(sim, SFSPF, i);
+		if (sim->forks[i] == NULL)
 			return (p_error("Error: could not init mutex", MUTEX_FAILED));
-		}
-		i++;
 	}
 	i = -1;
 	while (++i < sim->philo_count)
+	{
 		if (add_philosopher(sim->philosophers + i, sim, i) != SUCCES)
 			return (p_error("Error: philo add fialed", PHILOSOPHER_FAIL));
+		ft_sleep(2);
+	}
 	i = -1;
 	while (++i < sim->philo_count)
 	{

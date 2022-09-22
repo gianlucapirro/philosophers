@@ -6,7 +6,7 @@
 /*   By: gianlucapirro <gianlucapirro@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 10:31:38 by gpirro            #+#    #+#             */
-/*   Updated: 2022/05/13 13:53:59 by gianlucapir      ###   ########.fr       */
+/*   Updated: 2022/09/22 17:55:34 by gianlucapir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,14 @@ int	check_philo_status(t_philosopher *philo)
  */
 static int	eat(t_philosopher *philo)
 {
-	philo->last_meal = get_time();
+	int	sod;
+
 	print("\033[32m %ld %d is eating\n", philo);
 	if (philo->sim->times_to_eat != -1)
 		philo->meals_count += 1;
-	return (sleep_or_die(philo->sim->tte, philo));
+	sod = sleep_or_die(philo->sim->tte, philo);
+	philo->last_meal = get_time();
+	return (sod);
 }
 
 /**
